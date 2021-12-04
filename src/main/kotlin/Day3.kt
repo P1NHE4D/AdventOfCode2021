@@ -1,11 +1,13 @@
 import java.io.File
 
 class Day3 : Day {
+    private val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day3.txt")
+        .inputStream()
+        .bufferedReader()
+        .use {
+            it.readLines()
+        }
     override fun task01() {
-        val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day3.txt").inputStream()
-            .bufferedReader().use {
-                it.readLines()
-            }
         val mostCommonBits = data.mostCommonBits()
         val leastCommonBits = mostCommonBits.map {
             if (it == '0') {
@@ -20,10 +22,6 @@ class Day3 : Day {
     }
 
     override fun task02() {
-        val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day3.txt").inputStream()
-            .bufferedReader().use {
-                it.readLines()
-            }
         val o2GenRating = data.findO2Rating()
         val co2ScrubberRating = data.findCO2Rating()
         print("Task 2 solution: ${o2GenRating * co2ScrubberRating}")

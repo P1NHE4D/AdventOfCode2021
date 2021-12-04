@@ -1,7 +1,7 @@
 import java.io.File
 
 class Day1 : Day {
-    val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day1.txt")
+    private val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day1.txt")
         .inputStream()
         .bufferedReader()
         .use {
@@ -15,9 +15,7 @@ class Day1 : Day {
     override fun task01() {
         var increasingCount = 0
         for (i in 1..data.lastIndex) {
-            val curr = data[i]
-            val prev = data[i - 1]
-            if (curr > prev) increasingCount += 1
+            if (data[i] > data[i - 1]) increasingCount += 1
         }
         println("Task 1 solution: $increasingCount")
     }
@@ -25,9 +23,9 @@ class Day1 : Day {
     override fun task02() {
         var increasingCount = 0
         for (i in 3..data.lastIndex) {
-            val prev_window = data[i - 3] + data[i - 2] + data[i - 1]
-            val curr_window = data[i - 2] + data[i - 1] + data[i]
-            if (curr_window > prev_window) increasingCount += 1
+            val prevWindow = data[i - 3] + data[i - 2] + data[i - 1]
+            val currWindow = data[i - 2] + data[i - 1] + data[i]
+            if (currWindow > prevWindow) increasingCount += 1
         }
         println("Task 2 solution: $increasingCount")
     }

@@ -5,22 +5,24 @@ class Day4 : Day {
     private val bingoNumbers: List<Int>
 
     init {
-        var data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day4.txt").inputStream()
-            .bufferedReader().use {
+        val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day4.txt")
+            .inputStream()
+            .bufferedReader()
+            .use {
                 it.readLines()
             }
         bingoNumbers = data[0].split(',').map { it.toInt() }
         var boardValues = mutableListOf<List<Int>>()
-        data = data.drop(2)
-        data.forEach {
-            if (it != "") {
-                val line = it.replace("\n", "").split(" ").filter { it != "" }.map { str -> str.trim().toInt() }
-                boardValues.add(line)
-            } else {
-                bingoBoards.add(BingoBoard(boardValues))
-                boardValues = mutableListOf()
+        data.drop(2)
+            .forEach {
+                if (it != "") {
+                    val line = it.replace("\n", "").split(" ").filter { it != "" }.map { str -> str.trim().toInt() }
+                    boardValues.add(line)
+                } else {
+                    bingoBoards.add(BingoBoard(boardValues))
+                    boardValues = mutableListOf()
+                }
             }
-        }
     }
 
     override fun task01() {
