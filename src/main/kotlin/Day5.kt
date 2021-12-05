@@ -47,48 +47,24 @@ class HydrothermalField(xSize: Int, ySize: Int) {
             if (field[x][y] == 2) {
                 overlappingPoints += 1
             }
-            when {
-                ((xStart != xEnd) && (yStart == yEnd)) -> {
-                    if (xStart > xEnd) {
-                        x -= 1
-                        if (x < xEnd) finished = true
-                    } else {
-                        x += 1
-                        if (x > xEnd) finished = true
-                    }
-                }
-                ((xStart == xEnd) && (yStart != yEnd)) -> {
-                    if (yStart > yEnd) {
-                        y -= 1
-                        if (y < yEnd) finished = true
-                    } else {
-                        y += 1
-                        if (y > yEnd) finished = true
-                    }
-                }
-                ((xStart != xEnd) && (yStart != yEnd)) -> {
-                    if (xStart > xEnd) {
-                        x -= 1
-                        if (x < xEnd) finished = true
-                    } else {
-                        x += 1
-                        if (x > xEnd) finished = true
-                    }
-                    if (yStart > yEnd) {
-                        y -= 1
-                        if (y < yEnd) finished = true
-                    } else {
-                        y += 1
-                        if (y > yEnd) finished = true
-                    }
+            if (xStart != xEnd) {
+                if (xStart > xEnd) {
+                    x -= 1
+                    finished = (x < xEnd)
+                } else {
+                    x += 1
+                    finished = (x > xEnd)
                 }
             }
-        }
-    }
-
-    fun printBoard() {
-        field.forEach {
-            println(it.toList())
+            if (yStart != yEnd) {
+                if (yStart > yEnd) {
+                    y -= 1
+                    finished = (y < yEnd)
+                } else {
+                    y += 1
+                    finished = (y > yEnd)
+                }
+            }
         }
     }
 }
