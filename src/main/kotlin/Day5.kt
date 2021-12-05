@@ -43,26 +43,26 @@ class HydrothermalField(xSize: Int, ySize: Int) {
         var x = xStart
         var finished = false
         while (!finished) {
-            field[x][y] += 1
+            field[x][y]++
             if (field[x][y] == 2) {
-                overlappingPoints += 1
+                overlappingPoints++
             }
             if (xStart != xEnd) {
-                if (xStart > xEnd) {
-                    x -= 1
-                    finished = (x < xEnd)
+                finished = if (xStart > xEnd) {
+                    x--
+                    (x < xEnd)
                 } else {
-                    x += 1
-                    finished = (x > xEnd)
+                    x++
+                    (x > xEnd)
                 }
             }
             if (yStart != yEnd) {
-                if (yStart > yEnd) {
-                    y -= 1
-                    finished = (y < yEnd)
+                finished = if (yStart > yEnd) {
+                    y--
+                    (y < yEnd)
                 } else {
-                    y += 1
-                    finished = (y > yEnd)
+                    y++
+                    (y > yEnd)
                 }
             }
         }
