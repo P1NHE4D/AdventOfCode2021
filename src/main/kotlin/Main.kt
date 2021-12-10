@@ -1,5 +1,5 @@
 fun main() {
-    Day7().apply {
+    Day6().apply {
         task01()
         task02()
     }

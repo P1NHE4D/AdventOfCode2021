@@ -1,7 +1,7 @@
 import java.io.File
 
 class Day6 : Day {
-    private var aquarium = mutableListOf<Int>()
+    private var aquarium = LongArray(10) { 0L }.toMutableList()
     private val data = File("/Users/agerlach/Projects/advent_of_code_2021/src/main/resources/input/day6.txt")
         .inputStream()
         .bufferedReader()
@@ -9,30 +9,27 @@ class Day6 : Day {
         .split(",")
         .map { it.toInt() }
 
+
     override fun task01() {
-        aquarium = data.toMutableList()
+        data.groupingBy { it }.eachCount().forEach { aquarium[it.key] = it.value.toLong() }
         simulate(80)
-        println("Task 01 solution: ${aquarium.size}")
+        val count = aquarium.fold(0L) {acc, i -> acc + i }
+        println("Task 01 solution: $count")
     }
 
     override fun task02() {
-        aquarium = data.toMutableList()
+        aquarium = LongArray(10) { 0L }.toMutableList()
+        data.groupingBy { it }.eachCount().forEach { aquarium[it.key] = it.value.toLong() }
         simulate(256)
-        println("Task 02 solution: ${aquarium.size}")
+        val count = aquarium.fold(0L) {acc, i -> acc + i }
+        println("Task 02 solution: $count")
     }
 
     private fun simulate(days: Int) {
-        println(days)
-        aquarium = aquarium
-            .apply {
-                addAll(
-                    IntArray(
-                        filter { it == 0 }.fold(0) {acc, _ -> acc + 1}
-                    ) { 9 }.toList()
-                )
-            }
-            .map { if(it == 0) 6 else it - 1 }
-            .toMutableList()
+        aquarium[9] += aquarium[0]
+        aquarium[7] += aquarium[0]
+        aquarium.removeAt(0)
+        aquarium.add(9, 0)
         if (days - 1 > 0) simulate(days - 1)
     }
 }
