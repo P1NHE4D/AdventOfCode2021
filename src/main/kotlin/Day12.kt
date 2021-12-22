@@ -1,5 +1,4 @@
 import java.io.File
-import Node as Node
 
 class Day12 : Day {
     /**
@@ -18,63 +17,37 @@ class Day12 : Day {
                 map
             }
 
-    private val startNode = Node(
-        value = "start",
-        parent = null,
-        children = caveConnections["start"]!!,
-        smallNode = true,
-    )
-
     override fun task01() {
-        findAllPathsTask1(startNode).also {
+        findAllPathsTask1("start").also {
             println("Task 01 solution: $it")
         }
     }
 
     override fun task02() {
-        findAllPathsTask2(startNode).also {
+        findAllPathsTask2("start").also {
             println("Task 02 solution: $it")
         }
     }
 
-    private fun findAllPathsTask1(node: Node, visitedNodes: List<String> = listOf()): Int {
-        if (node.value == "end") return 1
-        if (node.value == "start" && visitedNodes.isNotEmpty()) return 0
-        if (node.smallNode && visitedNodes.contains(node.value)) return 0
-        return node.children.fold(0) { acc, child ->
-            val childNode = Node(
-                value = child,
-                parent = node,
-                children = caveConnections[child]!!,
-                smallNode = child.all { it.isLowerCase() },
-            )
-            acc + findAllPathsTask1(childNode, visitedNodes + node.value)
+    private fun findAllPathsTask1(node: String, visitedNodes: List<String> = listOf()): Int {
+        if (node == "end") return 1
+        if (node == "start" && visitedNodes.isNotEmpty()) return 0
+        if (node.all { it.isLowerCase() } && visitedNodes.contains(node)) return 0
+        return caveConnections[node]!!.fold(0) { acc, child ->
+            acc + findAllPathsTask1(child, visitedNodes + node)
         }
     }
 
-    private fun findAllPathsTask2(node: Node, visitedNodes: List<String> = listOf()): Int {
-        if (node.value == "end") return 1
-        if (node.value == "start" && visitedNodes.isNotEmpty()) return 0
-        if (node.smallNode &&
-            visitedNodes.contains(node.value) &&
+    private fun findAllPathsTask2(node: String, visitedNodes: List<String> = listOf()): Int {
+        if (node == "end") return 1
+        if (node == "start" && visitedNodes.isNotEmpty()) return 0
+        if (node.all { it.isLowerCase() } &&
+            visitedNodes.contains(node) &&
             !visitedNodes.filter { it.all { c -> c.isLowerCase() } }.groupingBy { it }.eachCount().all { it.value <= 1 }
         ) return 0
-        return node.children.fold(0) { acc, child ->
-            val childNode = Node(
-                value = child,
-                parent = node,
-                children = caveConnections[child]!!,
-                smallNode = child.all { it.isLowerCase() },
-            )
-            acc + findAllPathsTask2(childNode, visitedNodes + node.value)
+        return caveConnections[node]!!.fold(0) { acc, child ->
+            acc + findAllPathsTask2(child, visitedNodes + node)
         }
     }
 }
-
-data class Node(
-    val value: String,
-    val parent: Node?,
-    val children: Set<String>,
-    val smallNode: Boolean = false,
-)
 
